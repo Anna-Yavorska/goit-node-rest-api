@@ -39,10 +39,20 @@ const updateContact = async (req, res, next) => {
   res.json(result);
 };
 
+const updateContactFavorite = async (req, res, next) => {
+  const { id } = req.params;
+  const result = await contactsServices.updateStatusContact(id, req.body);
+  if (!result) {
+    throw HttpError(404);
+  }
+  res.json(result);
+};
+
 module.exports = {
   getAllContacts: controllerWrapper(getAllContacts),
   getOneContact: controllerWrapper(getOneContact),
   deleteContact: controllerWrapper(deleteContact),
   createContact: controllerWrapper(createContact),
   updateContact: controllerWrapper(updateContact),
+  updateContactFavorite: controllerWrapper(updateContactFavorite),
 };

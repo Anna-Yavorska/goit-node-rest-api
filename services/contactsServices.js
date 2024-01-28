@@ -1,70 +1,46 @@
-const fs = require("fs/promises");
-const path = require("path");
-const { nanoid } = require("nanoid");
 const HttpError = require("../helpers/HttpError");
-
-const contactsPath = path.resolve(__dirname, "../db/contacts.json");
+const Contact = require("../models/contacts");
 
 async function listContacts() {
-  const contacts = await fs.readFile(contactsPath);
-  return JSON.parse(contacts);
+  return await Contact.find();
 }
 
 async function getContactById(contactId) {
-  const contacts = await listContacts();
-  const result = contacts.find((contact) => contact.id === contactId);
-  return result || null;
+  if (contactId.length === 24) {
+    return await Contact.findById(contactId);
+  }
+  throw HttpError(404);
 }
 
 async function removeContact(contactId) {
-  const contacts = await listContacts();
-  const index = contacts.findIndex((item) => item.id === contactId);
-  if (index === -1) {
-    return null;
+  if (contactId.length === 24) {
+    return await Contact.findByIdAndDelete(contactId);
   }
-  const [deletedContact] = contacts.splice(index, 1);
-  await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
-  return deletedContact;
+  throw HttpError(404);
 }
 
-async function addContact({ name, email, phone }) {
-  const contacts = await listContacts();
-  const newContact = {
-    id: nanoid(),
-    name,
-    email,
-    phone,
-  };
-  contacts.push(newContact);
-  await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
-  return newContact;
+async function addContact({ name, email, phone, favorite }) {
+  return await Contact.create({ name, email, phone, favorite });
 }
 
 async function updateContact(id, data) {
-  const contacts = await listContacts();
-  const index = contacts.findIndex((item) => item.id === id);
-  if (index === -1) {
-    return null;
+  if (id.length === 24) {
+    return await Contact.findByIdAndUpdate(id, data, { new: true });
   }
-  console.log(Object.keys(data));
-  if (Object.keys(data).length === 0) {
-    throw HttpError(400, "Body must have at least one field");
-  }
-  contacts[index] = {
-    id,
-    name: data.name || contacts[index].name,
-    email: data.email || contacts[index].email,
-    phone: data.phone || contacts[index].phone,
-  };
-
-  await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
-  return contacts[index];
+  throw HttpError(404);
 }
 
+async function updateStatusContact(contactId, body) {
+  if (contactId.length === 24) {
+    return await Contact.findByIdAndUpdate(contactId, body, { new: true });
+  }
+  throw HttpError(404);
+}
 module.exports = {
   listContacts,
   getContactById,
   removeContact,
   addContact,
   updateContact,
+  updateStatusContact,
 };
