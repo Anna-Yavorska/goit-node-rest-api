@@ -4,7 +4,7 @@ const User = require("../../models/usersModels/users");
 const getInfo = async (req, res, next) => {
   const authHeader = req.headers.authorization || "";
 
-  const [token] = authHeader.split(" ");
+  const [type, token] = authHeader.split(" ");
 
   if (!token) {
     throw HttpError(401, "Not authorized");
@@ -18,7 +18,7 @@ const getInfo = async (req, res, next) => {
     throw HttpError(401, "Not authorized");
   }
 
-  res.json({ email, subscription });
+  res.json({email, subscription});
 };
 
 module.exports = getInfo;
