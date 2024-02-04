@@ -1,5 +1,5 @@
 const contactsServices = require("../../services/contactsServices");
-const { HttpError } = require("../../helpers/contactsHelpers");
+const { HttpError } = require("../../helpers");
 
 const updateContact = async (req, res, next) => {
   const { id } = req.params;

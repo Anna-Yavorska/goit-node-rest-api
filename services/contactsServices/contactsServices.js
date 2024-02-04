@@ -1,8 +1,8 @@
-const { HttpError } = require("../../helpers/contactsHelpers");
+const { HttpError } = require("../../helpers");
 const Contact = require("../../models/contactsModels/contacts");
 
-async function listContacts() {
-  return await Contact.find();
+async function listContacts(skip, limit) {
+  return await Contact.find().skip(skip).limit(limit);
 }
 
 async function getContactById(contactId) {
@@ -36,6 +36,7 @@ async function updateStatusContact(contactId, body) {
   }
   throw HttpError(404);
 }
+
 module.exports = {
   listContacts,
   getContactById,
