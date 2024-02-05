@@ -1,4 +1,4 @@
-const { controllerWrapper } = require("../../helpers/contactsHelpers");
+const { controllerWrapper } = require("../../helpers");
 const createContact = require("./createContact ");
 const deleteContact = require("./deleteContact");
 const getAllContacts = require("./getAllContacts");

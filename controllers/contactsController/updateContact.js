@@ -1,9 +1,10 @@
 const contactsServices = require("../../services/contactsServices");
-const { HttpError } = require("../../helpers/contactsHelpers");
+const { HttpError } = require("../../helpers");
 
 const updateContact = async (req, res, next) => {
+  const { _id: owner } = req.user;
   const { id } = req.params;
-  const result = await contactsServices.updateContact(id, req.body);
+  const result = await contactsServices.updateContact(owner, id, req.body);
   if (!result) {
     throw HttpError(404);
   }
