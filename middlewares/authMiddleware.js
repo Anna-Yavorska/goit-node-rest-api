@@ -23,7 +23,7 @@ const authMiddleware = async (req, res, next) => {
 
     } catch (error) {
         if (error.name === "TokenExpiredError" || error.name === "JsonWebTokenError") {
-            throw HttpError(401, "Not authorized");
+            throw HttpError(401, error.message);
         }
         throw error;
     }
