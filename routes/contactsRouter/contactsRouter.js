@@ -14,7 +14,7 @@ const {
   updateContactFavoriteSchema,
 } = require("../../schemas/contactsSchemas");
 
-const {authMiddleware} = require("../../middlewares/authMiddleware")
+const authMiddleware = require("../../middlewares/authMiddleware")
 
 const contactsRouter = express.Router();
 

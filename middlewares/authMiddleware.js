@@ -1,33 +1,35 @@
-const HttpError = require("../helpers/HttpError")
-const controllerWrapper = require("../helpers/controllerWrapper")
+const HttpError = require("../helpers/HttpError");
+
 const jwt = require("jsonwebtoken");
 const User = require("../models/usersModels/users");
-const {JWT_SECRET} = process.env
+const { JWT_SECRET } = process.env;
 
 const authMiddleware = async (req, res, next) => {
-    const authHeader = req.headers.authorization || "";
-    const [type, token] = authHeader.split(" ");
+  const authHeader = req.headers.authorization || "";
+  const [type, token] = authHeader.split(" ");
 
-    if (type !== "Bearer" || !token) {
-        throw HttpError(401, "Not authorized")
+  if (type !== "Bearer" || !token) {
+    throw HttpError(401, "Not authorized");
+  }
+
+  try {
+    const { id } = jwt.verify(token, JWT_SECRET);
+    const user = await User.findById(id);
+
+    if (!user) {
+      throw HttpError(401, "Not authorized");
     }
-
-    try {
-        const {id} = jwt.verify(token, JWT_SECRET);
-        const user = await User.findById(id);
-        
-        if (!user) {
-            throw HttpError(401, "Not authorized");
-        }
-        req.user = user;
-
-    } catch (error) {
-        if (error.name === "TokenExpiredError" || error.name === "JsonWebTokenError") {
-            throw HttpError(401, error.message);
-        }
-        throw error;
+    req.user = user;
+  } catch (error) {
+    if (
+      error.name === "TokenExpiredError" ||
+      error.name === "JsonWebTokenError"
+    ) {
+      throw HttpError(401, error.message);
     }
-    next();
+    throw error;
+  }
+  next();
 };
 
-module.exports ={ authMiddleware: controllerWrapper(authMiddleware)}
+module.exports = authMiddleware;
