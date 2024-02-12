@@ -3,6 +3,7 @@ const getInfo = require("./getInfo");
 const login = require("./login");
 const logout = require("./logout");
 const registration = require("./registration");
+const updateAvatar = require("./updateAvatar");
 const updateSubscription = require("./updateSubscription");
 
 
@@ -12,4 +13,5 @@ module.exports = {
   logout: controllerWrapper(logout),
   getInfo: controllerWrapper(getInfo),
   updateSubscription: controllerWrapper(updateSubscription),
+  updateAvatar: controllerWrapper(updateAvatar),
 };
