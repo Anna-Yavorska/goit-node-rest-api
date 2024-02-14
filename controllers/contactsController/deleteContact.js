@@ -11,4 +11,4 @@ const deleteContact = async (req, res, next) => {
   res.json(result);
 };
 
-module.exports =  deleteContact;
+module.exports = deleteContact;

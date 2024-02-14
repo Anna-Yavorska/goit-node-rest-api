@@ -4,7 +4,7 @@ const cors = require("cors");
 const dotenv = require("dotenv").config();
 const mongoose = require("mongoose");
 const contactsRouter = require("./routes/contactsRouter/contactsRouter.js");
-const usersRouter = require("./routes/usersRouter/usersRouter.js")
+const usersRouter = require("./routes/usersRouter/usersRouter.js");
 
 const { DB_HOST } = process.env;
 
@@ -13,7 +13,7 @@ const app = express();
 app.use(morgan("tiny"));
 app.use(cors());
 app.use(express.json());
-app.use(express.static("public"))
+app.use(express.static("public"));
 
 app.use("/api/contacts", contactsRouter);
 app.use("/users", usersRouter);
@@ -28,4 +28,3 @@ app.use((err, req, res, next) => {
 });
 
 module.exports = app;
-
