@@ -2,8 +2,8 @@ const contactsServices = require("../../services/contactsServices/contactsServic
 
 const createContact = async (req, res, next) => {
   const { _id: owner } = req.user;
-  
-  const result = await contactsServices.addContact({...req.body, owner});
+
+  const result = await contactsServices.addContact({ ...req.body, owner });
   res.status(201).json(result);
 };
 

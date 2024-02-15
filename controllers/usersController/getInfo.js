@@ -18,7 +18,7 @@ const getInfo = async (req, res, next) => {
     throw HttpError(401, "Not authorized");
   }
 
-  res.json({email, subscription});
+  res.json({ email, subscription });
 };
 
 module.exports = getInfo;

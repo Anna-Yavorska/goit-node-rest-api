@@ -10,14 +10,14 @@ async function listContacts(filter, skip, limit) {
 
 async function getContactById(contactId, ownerId) {
   if (contactId.length === 24) {
-    return await Contact.findOne({_id: contactId, owner: ownerId});
+    return await Contact.findOne({ _id: contactId, owner: ownerId });
   }
   throw HttpError(404);
 }
 
 async function removeContact(ownerId, contactId) {
   if (contactId.length === 24) {
-    return await Contact.findOneAndDelete({_id:contactId, owner: ownerId});
+    return await Contact.findOneAndDelete({ _id: contactId, owner: ownerId });
   }
   throw HttpError(404);
 }
@@ -28,22 +28,28 @@ async function addContact({ name, email, phone, favorite, owner }) {
 
 async function updateContact(ownerId, id, data) {
   if (id.length === 24) {
-    return await Contact.findOneAndUpdate({
-      _id: id,
-      owner: ownerId
-    },
+    return await Contact.findOneAndUpdate(
+      {
+        _id: id,
+        owner: ownerId,
+      },
       data,
-    {new: true});
+      { new: true }
+    );
   }
   throw HttpError(404);
 }
 
 async function updateStatusContact(ownerId, contactId, body) {
   if (contactId.length === 24) {
-    return await Contact.findOneAndUpdate({
-      _id: contactId,
-      owner: ownerId
-    }, body, { new: true });
+    return await Contact.findOneAndUpdate(
+      {
+        _id: contactId,
+        owner: ownerId,
+      },
+      body,
+      { new: true }
+    );
   }
   throw HttpError(404);
 }

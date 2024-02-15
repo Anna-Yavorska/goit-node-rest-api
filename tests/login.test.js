@@ -41,16 +41,16 @@ describe("Test login user", () => {
     );
   });
 
-    it("should not login non-existent user", async () => {
-        const response = await testRequest(app).post("/users/login").send({
-            email: "test@mail.com",
-            password: "qweqwe",
-        });
-
-        expect(response.statusCode).toBe(401);
-
-        expect(response.text).toBe('{"message":"Email or password is wrong"}')
+  it("should not login non-existent user", async () => {
+    const response = await testRequest(app).post("/users/login").send({
+      email: "test@mail.com",
+      password: "qweqwe",
     });
+
+    expect(response.statusCode).toBe(401);
+
+    expect(response.text).toBe('{"message":"Email or password is wrong"}');
+  });
 
   afterAll(async () => {
     await mongoose.disconnect(DB_HOST);
