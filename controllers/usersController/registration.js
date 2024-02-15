@@ -3,7 +3,7 @@ const HttpError = require("../../helpers/HttpError");
 const bcrypt = require("bcrypt");
 const gravatar = require("gravatar");
 const { nanoid } = require("nanoid");
-const { sendEmail } = require("../../helpers");
+const sendEmail = require("../../services/email");
 
 const { BASE_URL } = process.env;
 

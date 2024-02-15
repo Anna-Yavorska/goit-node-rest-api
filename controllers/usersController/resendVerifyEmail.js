@@ -1,6 +1,6 @@
 const { HttpError } = require("../../helpers");
 const User = require("../../models/usersModels/users");
-const { sendEmail } = require("../../helpers");
+const sendEmail = require("../../services/email");
 
 const { BASE_URL } = process.env;
 
